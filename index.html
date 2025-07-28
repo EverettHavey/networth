@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notable Figures Net Worth</title>
-    <!-- Tailwind CSS CDN for easy styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom CSS for font and overall look -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
@@ -28,6 +26,59 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #64748b;
         }
+
+        /* Modal specific styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh; /* Limit height for scrollability */
+            overflow-y: auto; /* Enable scrolling for long bios */
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            position: relative; /* For close button positioning */
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #4a5568; /* gray-700 */
+            transition: color 0.2s ease-in-out;
+        }
+        .modal-close-button:hover {
+            color: #1a202c; /* gray-900 */
+        }
     </style>
 </head>
 <body class="p-4 sm:p-6 md:p-8 flex flex-col items-center">
@@ -36,96 +87,130 @@
             Who's Making Bank? 🤑
         </h1>
         <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-            Explore the estimated net worth of some of the world's most notable figures.
+            Explore the estimated net worth and fascinating bios of some of the world's most notable figures.
             Data is for illustrative purposes only.
         </p>
     </header>
 
     <main id="people-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl">
-        <!-- People cards will be injected here by JavaScript -->
-    </main>
+        </main>
 
     <footer class="mt-12 text-center text-gray-500 text-sm">
         <p>&copy; 2025 Notable Figures Net Worth. All rights reserved.</p>
         <p class="mt-2">Disclaimer: All net worth figures are estimates and for entertainment purposes only.</p>
     </footer>
 
+    <div id="bioModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" id="closeModal">&times;</button>
+            <img id="modalImage" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 ring-4 ring-blue-300 ring-opacity-75" alt="Profile Picture">
+            <h2 id="modalName" class="text-3xl font-bold text-gray-800 text-center mb-2"></h2>
+            <p id="modalNetWorth" class="text-2xl font-bold text-green-600 text-center mb-4"></p>
+            <p id="modalBio" class="text-gray-700 text-lg leading-relaxed text-center"></p>
+        </div>
+    </div>
+
     <script>
-        // JavaScript for dynamically generating the content
         document.addEventListener('DOMContentLoaded', () => {
             const peopleContainer = document.getElementById('people-container');
+            const bioModal = document.getElementById('bioModal');
+            const closeModalButton = document.getElementById('closeModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalName = document.getElementById('modalName');
+            const modalNetWorth = document.getElementById('modalNetWorth');
+            const modalBio = document.getElementById('modalBio');
 
-            // Mock data for notable figures and their estimated net worth
+            // Data for notable figures with added 'bio' property
             const peopleData = [
                 {
-                    name: "Santa Claus",
-                    netWorth: "$320 Billion",
-                    imageUrl: "https://placehold.co/150x150/667eea/ffffff?text=Elon+Musk" // Placeholder image
+                    name: "Emperor Xylos of the Eldoria Imperium",
+                    netWorth: "$500 Trillion",
+                    imageUrl: "images/galatic.png",
+                    bio: "Ancient and revered ruler of the Eldoria Imperium. His vast wealth stems from direct ownership of entire planets rich in unobtainium and chronium, as well as licensing of Eldorian hyper-advanced technologies that power galactic commerce. He holds significant stakes in every major interstellar corporation within his dominion."
                 },
                 {
-                    name: "Elon Musk",
-                    netWorth: "$278 Billion",
-                    imageUrl: "https://placehold.co/150x150/667eea/ffffff?text=Elon+Musk" // Placeholder image
+                    name: "Dr. Aris Thorne",
+                    netWorth: "$250 Billion",
+                    imageUrl: "images/EM.webp",
+                    bio: "Visionary scientist and founder of 'OmniCorp,' a conglomerate that has revolutionized every major industry. His fortune originates from patents on clean fusion energy, development of the first commercially viable quantum computer, and self-replicating robotic factories. He owns vast tracts of land on Mars and the Moon."
                 },
                 {
                     name: "Elon Musk",
                     netWorth: "$250 Billion",
-                    imageUrl: "https://placehold.co/150x150/667eea/ffffff?text=Elon+Musk" // Placeholder image
+                    imageUrl: "images/EM.webp", // You'll need to provide this image
+                    bio: "CEO of Tesla, SpaceX, Neuralink, and The Boring Company. A serial entrepreneur and investor, he's known for his ambitious goals of revolutionizing transportation, space exploration, and artificial intelligence."
+                },
+                 {
+                    name: "Santa Claus",
+                    netWorth: "$320 Billion",
+                    imageUrl: "images/santaclaus.jpg", // You'll need to provide this image
+                    bio: "Chief Holiday Operations Officer and CEO of the North Pole Workshop. His wealth is derived from centuries of global toy production, efficient logistics, and the invaluable intellectual property of Christmas magic."
                 },
                 {
                     name: "Oprah Winfrey",
                     netWorth: "$3.5 Billion",
-                    imageUrl: "https://placehold.co/150x150/a78bfa/ffffff?text=Oprah+Winfrey" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/a78bfa/ffffff?text=Oprah+Winfrey",
+                    bio: "Media executive, actress, talk show host, television producer, and philanthropist. She is best known for her talk show, The Oprah Winfrey Show, which was the highest-rated talk show in television history."
                 },
                 {
                     name: "Jeff Bezos",
                     netWorth: "$200 Billion",
-                    imageUrl: "https://placehold.co/150x150/ec4899/ffffff?text=Jeff+Bezos" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/ec4899/ffffff?text=Jeff+Bezos",
+                    bio: "Founder and executive chairman of Amazon. He played a pivotal role in the growth of e-commerce as the founder of Amazon.com, an online bookseller that grew into a massive internet-based enterprise."
                 },
                 {
                     name: "Taylor Swift",
                     netWorth: "$1.1 Billion",
-                    imageUrl: "https://placehold.co/150x150/f472b6/ffffff?text=Taylor+Swift" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/f472b6/ffffff?text=Taylor+Swift",
+                    bio: "Globally acclaimed singer-songwriter. Her fortune comes from music sales, touring, merchandise, endorsements, and shrewd business dealings in the music industry, including re-recording her early albums."
                 },
                 {
                     name: "Bill Gates",
                     netWorth: "$140 Billion",
-                    imageUrl: "https://placehold.co/150x150/d946ef/ffffff?text=Bill+Gates" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/d946ef/ffffff?text=Bill+Gates",
+                    bio: "Co-founder of Microsoft and a prominent philanthropist through the Bill & Melinda Gates Foundation. His wealth primarily stems from his stake in Microsoft and various investments across numerous sectors."
                 },
                 {
                     name: "Rihanna",
                     netWorth: "$1.7 Billion",
-                    imageUrl: "https://placehold.co/150x150/8b5cf6/ffffff?text=Rihanna" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/8b5cf6/ffffff?text=Rihanna",
+                    bio: "Barbadian singer, businesswoman, and actress. She is the founder of Fenty Beauty, Fenty Skin, and Savage X Fenty, which are significant contributors to her billionaire status beyond her music career."
                 },
                 {
                     name: "Larry Page",
                     netWorth: "$150 Billion",
-                    imageUrl: "https://placehold.co/150x150/10b981/ffffff?text=Larry+Page" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/10b981/ffffff?text=Larry+Page",
+                    bio: "Co-founder of Google (now Alphabet Inc.). His wealth is primarily from his stake and leadership roles in Google, which has diversified into numerous technology and innovation sectors."
                 },
                 {
                     name: "J.K. Rowling",
                     netWorth: "$1 Billion",
-                    imageUrl: "https://placehold.co/150x150/fbbf24/ffffff?text=J.K.+Rowling" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/fbbf24/ffffff?text=J.K.+Rowling",
+                    bio: "British author, best known as the author of the Harry Potter fantasy series. Her fortune is derived from book sales, film rights, theme park deals, and related intellectual property."
                 },
                 {
                     name: "Warren Buffett",
                     netWorth: "$130 Billion",
-                    imageUrl: "https://placehold.co/150x150/f97316/ffffff?text=Warren+Buffett" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/f97316/ffffff?text=Warren+Buffett",
+                    bio: "One of the most successful investors of all time, Chairman and CEO of Berkshire Hathaway. Known as the 'Oracle of Omaha,' his wealth comes from a diverse portfolio of long-term investments."
                 },
                 {
                     name: "Beyoncé Knowles",
                     netWorth: "$540 Million",
-                    imageUrl: "https://placehold.co/150x150/ef4444/ffffff?text=Beyonce" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/ef4444/ffffff?text=Beyonce",
+                    bio: "American singer, songwriter, and businesswoman. Her wealth is built through her music career (album sales, tours), endorsements, and various business ventures, including her Ivy Park fashion line."
                 },
-                 {
+                {
                     name: "Mark Zuckerberg",
                     netWorth: "$170 Billion",
-                    imageUrl: "https://placehold.co/150x150/0ea5e9/ffffff?text=Mark+Zuckerberg" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/0ea5e9/ffffff?text=Mark+Zuckerberg",
+                    bio: "Co-founder and CEO of Meta Platforms (formerly Facebook). His fortune is largely tied to his ownership stake in Meta, which includes Facebook, Instagram, WhatsApp, and investments in the metaverse."
                 },
                 {
                     name: "Kim Kardashian",
                     netWorth: "$1.8 Billion",
-                    imageUrl: "https://placehold.co/150x150/c026d3/ffffff?text=Kim+Kardashian" // Placeholder image
+                    imageUrl: "https://placehold.co/150x150/c026d3/ffffff?text=Kim+Kardashian",
+                    bio: "American reality television personality, businesswoman, socialite, and model. Her wealth primarily comes from her KKW Beauty and SKIMS shapewear brands, as well as television and endorsements."
                 }
             ];
 
@@ -135,8 +220,8 @@
                 card.className = `
                     bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300
                     p-6 flex flex-col items-center text-center transform hover:-translate-y-1
-                    border border-gray-200
-                `; // Added border for subtle definition
+                    border border-gray-200 cursor-pointer
+                `; // Added cursor-pointer
 
                 // Image element
                 const img = document.createElement('img');
@@ -145,9 +230,8 @@
                 img.className = `
                     w-32 h-32 rounded-full object-cover mb-4 ring-4 ring-blue-300 ring-opacity-75
                     transition-transform duration-300 hover:scale-105
-                `; // Enhanced image styling
+                `;
                 img.onerror = () => {
-                    // Fallback for broken images
                     img.src = `https://placehold.co/150x150/cccccc/333333?text=N/A`;
                     img.alt = `Image not available for ${person.name}`;
                 };
@@ -171,12 +255,34 @@
                 card.appendChild(name);
                 card.appendChild(netWorth);
 
+                // Add click event listener to show the bio
+                card.addEventListener('click', () => {
+                    modalImage.src = person.imageUrl;
+                    modalImage.alt = person.name; // Update alt text
+                    modalName.textContent = person.name;
+                    modalNetWorth.textContent = `Net Worth: ${person.netWorth}`;
+                    modalBio.textContent = person.bio;
+                    bioModal.classList.add('active'); // Show modal
+                });
+
                 return card;
             };
 
             // Populate the container with cards
             peopleData.forEach(person => {
                 peopleContainer.appendChild(createPersonCard(person));
+            });
+
+            // Close modal functionality
+            closeModalButton.addEventListener('click', () => {
+                bioModal.classList.remove('active'); // Hide modal
+            });
+
+            // Close modal if clicked outside content
+            bioModal.addEventListener('click', (e) => {
+                if (e.target === bioModal) {
+                    bioModal.classList.remove('active');
+                }
             });
         });
     </script>
