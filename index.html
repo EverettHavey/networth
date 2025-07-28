@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notable Figures Net Worth</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS for font and overall look -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8 flex flex-col items-center">
+    <header class="text-center mb-8">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+            Who's Making Bank? 🤑
+        </h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Explore the estimated net worth of some of the world's most notable figures.
+            Data is for illustrative purposes only.
+        </p>
+    </header>
+
+    <main id="people-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl">
+        <!-- People cards will be injected here by JavaScript -->
+    </main>
+
+    <footer class="mt-12 text-center text-gray-500 text-sm">
+        <p>&copy; 2025 Notable Figures Net Worth. All rights reserved.</p>
+        <p class="mt-2">Disclaimer: All net worth figures are estimates and for entertainment purposes only.</p>
+    </footer>
+
+    <script>
+        // JavaScript for dynamically generating the content
+        document.addEventListener('DOMContentLoaded', () => {
+            const peopleContainer = document.getElementById('people-container');
+
+            // Mock data for notable figures and their estimated net worth
+            const peopleData = [
+                {
+                    name: "Santa Claus",
+                    netWorth: "$320 Billion",
+                    imageUrl: "https://placehold.co/150x150/667eea/ffffff?text=Elon+Musk" // Placeholder image
+                },
+                {
+                    name: "Elon Musk",
+                    netWorth: "$278 Billion",
+                    imageUrl: "https://placehold.co/150x150/667eea/ffffff?text=Elon+Musk" // Placeholder image
+                },
+                {
+                    name: "Elon Musk",
+                    netWorth: "$250 Billion",
+                    imageUrl: "https://placehold.co/150x150/667eea/ffffff?text=Elon+Musk" // Placeholder image
+                },
+                {
+                    name: "Oprah Winfrey",
+                    netWorth: "$3.5 Billion",
+                    imageUrl: "https://placehold.co/150x150/a78bfa/ffffff?text=Oprah+Winfrey" // Placeholder image
+                },
+                {
+                    name: "Jeff Bezos",
+                    netWorth: "$200 Billion",
+                    imageUrl: "https://placehold.co/150x150/ec4899/ffffff?text=Jeff+Bezos" // Placeholder image
+                },
+                {
+                    name: "Taylor Swift",
+                    netWorth: "$1.1 Billion",
+                    imageUrl: "https://placehold.co/150x150/f472b6/ffffff?text=Taylor+Swift" // Placeholder image
+                },
+                {
+                    name: "Bill Gates",
+                    netWorth: "$140 Billion",
+                    imageUrl: "https://placehold.co/150x150/d946ef/ffffff?text=Bill+Gates" // Placeholder image
+                },
+                {
+                    name: "Rihanna",
+                    netWorth: "$1.7 Billion",
+                    imageUrl: "https://placehold.co/150x150/8b5cf6/ffffff?text=Rihanna" // Placeholder image
+                },
+                {
+                    name: "Larry Page",
+                    netWorth: "$150 Billion",
+                    imageUrl: "https://placehold.co/150x150/10b981/ffffff?text=Larry+Page" // Placeholder image
+                },
+                {
+                    name: "J.K. Rowling",
+                    netWorth: "$1 Billion",
+                    imageUrl: "https://placehold.co/150x150/fbbf24/ffffff?text=J.K.+Rowling" // Placeholder image
+                },
+                {
+                    name: "Warren Buffett",
+                    netWorth: "$130 Billion",
+                    imageUrl: "https://placehold.co/150x150/f97316/ffffff?text=Warren+Buffett" // Placeholder image
+                },
+                {
+                    name: "Beyoncé Knowles",
+                    netWorth: "$540 Million",
+                    imageUrl: "https://placehold.co/150x150/ef4444/ffffff?text=Beyonce" // Placeholder image
+                },
+                 {
+                    name: "Mark Zuckerberg",
+                    netWorth: "$170 Billion",
+                    imageUrl: "https://placehold.co/150x150/0ea5e9/ffffff?text=Mark+Zuckerberg" // Placeholder image
+                },
+                {
+                    name: "Kim Kardashian",
+                    netWorth: "$1.8 Billion",
+                    imageUrl: "https://placehold.co/150x150/c026d3/ffffff?text=Kim+Kardashian" // Placeholder image
+                }
+            ];
+
+            // Function to create a card for each person
+            const createPersonCard = (person) => {
+                const card = document.createElement('div');
+                card.className = `
+                    bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300
+                    p-6 flex flex-col items-center text-center transform hover:-translate-y-1
+                    border border-gray-200
+                `; // Added border for subtle definition
+
+                // Image element
+                const img = document.createElement('img');
+                img.src = person.imageUrl;
+                img.alt = person.name;
+                img.className = `
+                    w-32 h-32 rounded-full object-cover mb-4 ring-4 ring-blue-300 ring-opacity-75
+                    transition-transform duration-300 hover:scale-105
+                `; // Enhanced image styling
+                img.onerror = () => {
+                    // Fallback for broken images
+                    img.src = `https://placehold.co/150x150/cccccc/333333?text=N/A`;
+                    img.alt = `Image not available for ${person.name}`;
+                };
+
+                // Name element
+                const name = document.createElement('h2');
+                name.textContent = person.name;
+                name.className = `
+                    text-2xl font-semibold text-gray-800 mb-2
+                `;
+
+                // Net worth element
+                const netWorth = document.createElement('p');
+                netWorth.textContent = `Net Worth: ${person.netWorth}`;
+                netWorth.className = `
+                    text-xl font-bold text-green-600
+                `;
+
+                // Append elements to the card
+                card.appendChild(img);
+                card.appendChild(name);
+                card.appendChild(netWorth);
+
+                return card;
+            };
+
+            // Populate the container with cards
+            peopleData.forEach(person => {
+                peopleContainer.appendChild(createPersonCard(person));
+            });
+        });
+    </script>
+</body>
+</html>
